@@ -59,7 +59,10 @@ def pytest_configure(config):
 
 
 def _argnames(func):
-    spec = inspect.getargspec(func)
+    if sys.version_info[0] == 3:
+        spec = inspect.getfullargspec(func)
+    else:
+        spec = inspect.getargspec(func)
     if spec.defaults:
         return spec.args[:-len(spec.defaults)]
     if isinstance(func, types.FunctionType):
